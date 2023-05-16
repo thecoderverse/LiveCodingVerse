@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,10 +8,107 @@ datasource db {
 }
 
 model User {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String
+  password    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  user_type   UserType?
+  Candidate   Candidate?
+  Participant Participant?
+  Admin       Admin?
+}
+
+model UserType {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  type      UserTypes @default(PARTICIPANT)
+  user      User      @relation(fields: [user_id], references: [id])
+  user_id   String    @unique @db.ObjectId
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum UserTypes {
+  ADMIN
+  PARTICIPANT
+  CANDIDATE
+}
+
+model Session {
+  id           String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  date         DateTime               @default(now())
+  is_active    Boolean                @default(true)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  criterias    CriteriaOnSession[]
+  candidates   CandidateOnSession[]
+  participants ParticipantOnSession[]
+}
+
+model Criteria {
+  id          String              @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  weight      Int                 @default(1)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  sessions    CriteriaOnSession[]
+}
+
+model CriteriaOnSession {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  session     Session  @relation(fields: [session_id], references: [id])
+  session_id  String   @unique @db.ObjectId
+  criteria    Criteria @relation(fields: [criteria_id], references: [id])
+  criteria_id String   @unique @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Admin {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String
-  password  String
+  user      User     @relation(fields: [user_id], references: [id])
+  user_id   String   @unique @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Candidate {
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  user      User                 @relation(fields: [user_id], references: [id])
+  user_id   String               @unique @db.ObjectId
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+  sessions  CandidateOnSession[]
+}
+
+model CandidateOnSession {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  session      Session   @relation(fields: [session_id], references: [id])
+  session_id   String    @unique @db.ObjectId
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String    @unique @db.ObjectId
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Participant {
+  id        String                 @id @default(auto()) @map("_id") @db.ObjectId
+  user      User                   @relation(fields: [user_id], references: [id])
+  user_id   String                 @unique @db.ObjectId
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  sessions  ParticipantOnSession[]
+}
+
+model ParticipantOnSession {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  session        Session     @relation(fields: [session_id], references: [id])
+  session_id     String      @unique @db.ObjectId
+  participant    Participant @relation(fields: [participant_id], references: [id])
+  participant_id String      @unique @db.ObjectId
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 }
