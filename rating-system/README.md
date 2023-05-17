@@ -64,4 +64,4 @@ ready started server on 0.0.0.0:3000, url: http://localhost:3000
 
 https://www.youtube.com/watch?v=qiktpsm1dYc
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qiktpsm1dYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Günün Menüsü - NextJS Prisma MongoDB](https://img.youtube.com/vi/qiktpsm1dYc/0.jpg)](https://www.youtube.com/watch?v=qiktpsm1dYc)
