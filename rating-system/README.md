@@ -1,34 +1,67 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Rating System
 
-## Getting Started
+Bu repository 18.05.2023 Youtube canlı yayınında gerçekleştirdiğimiz LiveCoding oturumuna aittir.
 
-First, run the development server:
+## Gereksinimler
+1. Projeyi çalıştırmak istediğiniz bilgisayarda güncel NodeJS sürümlerinden bir tanesi yüklü olması gerekir. Eğer çalışma ortamınızda NodeJS yüklü değilse linkten kurulumları takip ediniz.
+https://nodejs.org/en
+
+Eğer çalışma ortamınızda NodeJS yüklü ise aşağıdaki gibi versiyon kontrolü yapabilirsiniz.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+node -v
+npm -v
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Proje için bir tane MongoDB database'ine ihtiyacımız bulunmaktadır. Bu noktada iki alternatif sunabiliriz. Eğer bilgisayarınızda Docker kurulu ise Docker üzerinden aşağıdaki komut ile bir database ayağa kaldırabilirsiniz.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+docker run --name mongodb -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=pass mongodb/mongodb-community-server:latest
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Eğer çalışma ortamınızda docker kurulu değilse MongoDB Atlas Cloud platformundan ücretsiz versiyonu kullanarak bir database ayağa kaldırabilirsiniz.
+https://www.mongodb.com/atlas/database
 
-## Learn More
+## Hazırlıklar
 
-To learn more about Next.js, take a look at the following resources:
+1. Projeyi forklayın. (Projenin ilk haline ulaşmak için Copy the main branch only seçeneğini tiklememeniz gerekmektedir.)
+2. Forkladığınız projeyi local bilgisayara klonlayın. (Klonlama işlemini tamamladıktan sonra projenin ilk haline ulaşmanız için rating-system-init branch'ine geçiş yapmanız gerekmektedir.)
+3. Aşağıdaki işlemleri tamamlayın.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+cd ./rating-system
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. Projeyi çalıştırmadan önce env bilgilerini ekleyin.
 
-## Deploy on Vercel
+- rating-system klasörü altına .env dosyası oluşturun.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```.env
+DATABASE_URL="mongodb://username:password@db0.example.com,db1.example.com,db2.example.com/database"
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. Prisma Generate
+
+```bash
+npx prisma generate
+```
+
+6. Prisma Studio
+```bash
+npx prisma studio
+```
+
+Prisma Studio is up on http://localhost:5555
+
+7. Yeni bir console açın ve uygulamayı çalıştırın.
+```bash
+npm run dev
+```
+ready started server on 0.0.0.0:3000, url: http://localhost:3000
+
+## Ek Bilgiler
+
+https://www.youtube.com/watch?v=qiktpsm1dYc
+
+[![Günün Menüsü - NextJS Prisma MongoDB](https://img.youtube.com/vi/qiktpsm1dYc/0.jpg)](https://www.youtube.com/watch?v=qiktpsm1dYc)
