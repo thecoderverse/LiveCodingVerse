@@ -1,4 +1,4 @@
-# LiveCondingVerse
+# LiveCodingVerse
 
 Bu repositoryde Youtube canlı yayınlarda gerçekleştirdiğimiz LiveCoding oturumları sırasında geliştirdiğimiz, yazdığımız kodları depolamaktayız.
 
