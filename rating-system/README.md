@@ -13,7 +13,7 @@ node -v
 npm -v
 ```
 
-2. Proje için bir tane MongoDB database'ine ihtiyacımız bulunmaktadır. Bu noktada iki alternatif sunabiliriz. Eğer bilgisayarınızda Docker kurulu ise Docker üzerinden aşağıdaki komut ile bir database ayağa kaldırabilirsiniz.
+2. Proje için bir tane MongoDB database'ine ihtiyacımız bulunmaktadır. Bu noktada iki alternatif sunabiliriz. Eğer bilgisayarınızda Docker kurulu ise Docker üzerinden aşağıdaki komut ile bir database ayağa kaldırabilirsiniz. Aşağıdaki ifadede **user** ve **pass** görülen kısımlara kendi belirleyeceğiniz kullanıcı adı ve şifre bilgilerini girmelisiniz. Bu bilgiler aynı zamanda .env dosyasındaki connection string bilgisi için de gerekecektir.
 
 ```bash
 docker run --name mongodb -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=user -e MONGO_INITDB_ROOT_PASSWORD=pass mongodb/mongodb-community-server:latest
@@ -24,9 +24,9 @@ https://www.mongodb.com/atlas/database
 
 ## Hazırlıklar
 
-1. Projeyi forklayın. (Projenin ilk haline ulaşmak için Copy the main branch only seçeneğini tiklememeniz gerekmektedir.)
-2. Forkladığınız projeyi local bilgisayara klonlayın. (Klonlama işlemini tamamladıktan sonra projenin ilk haline ulaşmanız için rating-system-init branch'ine geçiş yapmanız gerekmektedir.)
-3. Aşağıdaki işlemleri tamamlayın.
+1. Projeyi forklayın (Projenin ilk haline ulaşmak için **Copy the main branch only** seçeneğini **İŞARETLEMEMENİZ** gerekmektedir)
+2. Forkladığınız projeyi local bilgisayara klonlayın (Klonlama işlemini tamamladıktan sonra **projenin ilk haline ulaşmak için rating-system-init branch'ine** geçiş yapmanız gerekmektedir)
+3. Sonrasında aşağıdaki işlemler ile devam edilebilir.
 
 ```bash
 cd ./rating-system
@@ -35,10 +35,10 @@ npm install
 
 4. Projeyi çalıştırmadan önce env bilgilerini ekleyin.
 
-- rating-system klasörü altına .env dosyası oluşturun.
+- rating-system klasörü altına .env dosyası oluşturun. scoth, kullanıcı adı ve tiger ise şifredir. Siz kendi belirlediğiniz kullanıcı adı ve şifre ile bağlantı cümlesini oluşturabilirsiniz. ?authSource=admin parametresi, SCRAM Authentication hatası aldığınız zaman kullanabileceğiniz geçici çözümdür. En güncel bağlantı bilgileri için [resmi dokümantasyona](https://www.prisma.io/docs/concepts/database-connectors/mongodb) bakmanızı öneririz.
 
 ```.env
-DATABASE_URL="mongodb://username:password@db0.example.com,db1.example.com,db2.example.com/database"
+DATABASE_URL="mongodb://scoth:tiger@127.0.0.1:27017/adventureworks?authSource=admin"
 ```
 
 5. Prisma Generate

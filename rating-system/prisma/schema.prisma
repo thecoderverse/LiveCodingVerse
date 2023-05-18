@@ -45,6 +45,7 @@ model Session {
   criterias    CriteriaOnSession[]
   candidates   CandidateOnSession[]
   participants ParticipantOnSession[]
+  Rating       Rating?
 }
 
 model Criteria {
@@ -55,6 +56,7 @@ model Criteria {
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
   sessions    CriteriaOnSession[]
+  Rating      Rating?
 }
 
 model CriteriaOnSession {
@@ -82,6 +84,7 @@ model Candidate {
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
   sessions  CandidateOnSession[]
+  Rating    Rating?
 }
 
 model CandidateOnSession {
@@ -101,6 +104,7 @@ model Participant {
   createdAt DateTime               @default(now())
   updatedAt DateTime               @updatedAt
   sessions  ParticipantOnSession[]
+  Rating    Rating?
 }
 
 model ParticipantOnSession {
@@ -111,4 +115,19 @@ model ParticipantOnSession {
   participant_id String      @unique @db.ObjectId
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
+}
+
+model Rating {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  score          Int
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  candidate      Candidate   @relation(fields: [candidate_id], references: [id])
+  candidate_id   String      @unique @db.ObjectId
+  participant    Participant @relation(fields: [participant_id], references: [id])
+  participant_id String      @unique @db.ObjectId
+  criteria       Criteria    @relation(fields: [criteria_id], references: [id])
+  criteria_id    String      @unique @db.ObjectId
+  session        Session     @relation(fields: [session_id], references: [id])
+  session_id     String      @unique @db.ObjectId
 }
