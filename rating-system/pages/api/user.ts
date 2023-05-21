@@ -20,8 +20,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         }
       }
       case 'POST': {
-        const { email, name, birthYear } = req.body
-        const user = await createUser(email, name, birthYear)
+        const { email, name, password } = req.body
+        console.log(email, name, password);
+        const user = await createUser(email, name, password)
         return res.json(user)
       }
       case 'PUT': {
