@@ -1,51 +1,60 @@
-import React, { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { RootState } from '../store'
-import { setUser } from '../store/actions/user'
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { RootState } from '../store';
+import { setUser } from '../store/actions/user';
+
+interface UserData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const Index = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state: RootState) => state.user.user);
+  const [userData, setUserData] = React.useState<UserData>({ name: '', email: '', password: '' });
+  const [isEmailValid, setIsEmailValid] = React.useState<boolean>(true);
 
-  const [name, setName] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
+  const handleChange = <T extends keyof UserData>(field: T, value: UserData[T]): void => {
+    if (field === 'email') {
+      const isValid = validateEmail(value);
+      setIsEmailValid(isValid);
+    }
+    setUserData((prevUserData) => ({ ...prevUserData, [field]: value }));
+  };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-  }
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value)
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    dispatch(setUser(name, email, password))
-  }
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    if (!isEmailValid) {
+      alert('Lütfen geçerli bir e-posta adresi girin.');
+      return;
+    }
+    dispatch(setUser(userData.name, userData.email, userData.password));
+  };
 
   return (
     <div>
       <h1>Rating System</h1>
-      {
-        user && <div>
+      {user && (
+        <div>
           user: {user.name}
           <br />
           email: {user.email}
           <br />
           password: {user.password}
         </div>
-      }
-      <input type="text" value={name} onChange={handleNameChange} />
-      <input type="email" value={email} onChange={handleEmailChange} />
-      <input type="password" value={password} onChange={handlePasswordChange} />
+      )}
+      <input type="text" value={userData.name} onChange={(e) => handleChange('name', e.target.value)} />
+      <input type="email" value={userData.email} onChange={(e) => handleChange('email', e.target.value)} />
+      <input type="password" value={userData.password} onChange={(e) => handleChange('password', e.target.value)} />
       <button onClick={handleSubmit}>Submit</button>
     </div>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;
