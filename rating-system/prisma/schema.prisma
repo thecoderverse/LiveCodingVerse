@@ -18,6 +18,7 @@ model User {
   candidate   Candidate?
   participant Participant?
   admin       Admin?
+  token       String?
 }
 
 model UserType {

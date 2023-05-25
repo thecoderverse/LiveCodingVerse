@@ -1,7 +1,11 @@
 import { User } from '@prisma/client'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { fetchPost } from '../../fetch-helpers/post'
+import Button from '../../components/Button'
+import Card from '../../components/Card'
+import Input from '../../components/Input'
+import { fetchPost } from '../../utils/fetch/post'
+import { setLocalStorage } from '../../utils/local-storage/local-storage'
 
 const Signup = () => {
   const router = useRouter()
@@ -23,20 +27,20 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const result = await fetchPost<User>('/api/user', { name, email, password } as User)
+    const result = await fetchPost<User>('/api/register', { name, email, password } as User)
     if (result && result.id) {
+      setLocalStorage('token', result.token);
       router.push('/login')
     }
   }
 
   return (
-    <div>
-      <h1>Rating System</h1>
-      <input type="text" value={name} onChange={handleNameChange} />
-      <input type="email" value={email} onChange={handleEmailChange} />
-      <input type="password" value={password} onChange={handlePasswordChange} />
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
+    <Card title='Sign Up'>
+      <Input type='text' value={name} onChange={handleNameChange} placeholder='Name' required />
+      <Input type='email' value={email} onChange={handleEmailChange} placeholder='Email' required />
+      <Input type='password' value={password} onChange={handlePasswordChange} placeholder='Password' required />
+      <Button onClick={handleSubmit}>Submit</Button>
+    </Card>
   )
 }
 

@@ -1,7 +1,11 @@
 import { User } from "@prisma/client"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { fetchPost } from "../../fetch-helpers/post"
+import Button from "../../components/Button"
+import Card from "../../components/Card"
+import Input from "../../components/Input"
+import { fetchPost } from "../../utils/fetch/post"
+import { setLocalStorage } from "../../utils/local-storage/local-storage"
 
 const Login = () => {
     const router = useRouter()
@@ -20,18 +24,18 @@ const Login = () => {
         e.preventDefault()
         const result = await fetchPost<User>('/api/login', { email, password } as User)
         if (result && result.id) {
+            setLocalStorage('token', result.token);
             router.push('/home')
         }
     }
     
     return (
         <>
-            <h1>Login</h1>
-            <form>
-                <input type="email" placeholder="Email" value={email} onChange={handleEmailChange} />
-                <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
-                <button type="submit" onClick={handleSubmit}>Submit</button>
-            </form>
+            <Card title='Login'>
+                <Input type='email' value={email} onChange={handleEmailChange} placeholder='Email' required />
+                <Input type='password' value={password} onChange={handlePasswordChange} placeholder='Password' required />
+                <Button onClick={handleSubmit}>Submit</Button>
+            </Card>
         </>
     )
 }
