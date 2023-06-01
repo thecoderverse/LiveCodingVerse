@@ -8,7 +8,6 @@ export default function CreateCriteria() {
 
     const createCriteria = async () => {
         const criteria = await fetchPost<Criteria>('/api/criteria', { title: criteriaName, description: criteriaDescription } as Criteria)
-        console.log(criteria)
     }
     
     return (
