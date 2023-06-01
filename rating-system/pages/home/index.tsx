@@ -34,19 +34,15 @@ const Home = () => {
 
     const handleLogout = async () => {
         removeLocalStorage('token')
-        router.push('/login')
-    }
-
-    const joinSession = async () => {
-        console.log('join session')
+        await router.push('/login')
     }
 
     const createSession = async () => {
-        router.push('/session/create')
+        await router.push('/session/create')
     }
 
     const addCriteria = async () => {
-        router.push('/criteria/create')
+        await router.push('/criteria/create')
     }
 
     const SessionList = () => {
@@ -57,7 +53,7 @@ const Home = () => {
                     <div className="flex flex-col items-center justify-center mt-4">
                         {sessionList.map((session, index) => {
                             return (
-                                <div key={index} className="flex flex-row">
+                                <div key={session.id} className="flex flex-row">
                                     <span className="text-xl">{session.name}</span>
                                 </div>
                             )
